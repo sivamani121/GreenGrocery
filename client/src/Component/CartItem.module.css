@@ -1,0 +1,28 @@
+.card{
+    display: inline-block;
+    display: flex;
+    height: 130px;
+    
+    padding: 10px 30px 10px 30px;
+    margin: 10px 30px 10px 30px;
+    border: 1px solid #868e96;
+    
+    
+}
+
+.labels {
+    display: flex;
+    align-items: top;
+    margin-top: 30px;
+    
+    gap: 100px;
+  }
+  
+
+
+
+.image{
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+}
