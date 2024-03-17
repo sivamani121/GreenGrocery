@@ -17,6 +17,8 @@ exports.signup = catchAsync(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
+    mobileno:req.body.mobileno,
+    Username:req.body.Username
   });
   console.log(process.env.JWT_SECRET);
 
@@ -40,7 +42,7 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("incorrect credentials", 401));
   }
-  token = signToken(user._id);
+  const token = signToken(user._id);
   res.status(200).json({
     token,
   });

@@ -5,6 +5,12 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  Username: {
+    type: String,
+    minLength: [6, "length of username must be greater than 3"],
+    unique: true,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
@@ -19,7 +25,12 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  passwordChanged:Date
+  mobileno:{
+    type:String,
+    required:true,
+    unique:true,
+  },
+  passwordChanged: Date,
 });
 
 userSchema.pre("save", async function (next) {
@@ -35,14 +46,13 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPasswordAfter=function (JWTTtimestamp) {
-    if(this.passwordChanged){
-        const changedtstamp=parseInt(this.passwordChanged.getTime()/100);
-        // console(changedtstamp,JWTTtimestamp);
-        return JWTTtimestamp<changedtstamp;
-    }
-    return false;
-    
-}
+userSchema.methods.changedPasswordAfter = function (JWTTtimestamp) {
+  if (this.passwordChanged) {
+    const changedtstamp = parseInt(this.passwordChanged.getTime() / 100);
+    // console(changedtstamp,JWTTtimestamp);
+    return JWTTtimestamp < changedtstamp;
+  }
+  return false;
+};
 const User = mongoose.model("User", userSchema);
 module.exports = User;

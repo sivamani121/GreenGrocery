@@ -10,7 +10,9 @@ const userRouter = require("./Routes/userRoutes");
 const AppError = require("./utils/appError");
 const bodyParser = require("body-parser");
 const app = express();
+const cors = require('cors');
 app.use(helmet());
+app.use(cors());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }

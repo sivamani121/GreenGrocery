@@ -2,6 +2,8 @@ import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import styles from "./LoginForm.module.css";
 
+import axios from "axios";
+
 export function LoginForm({ setUserId }) {
   const [Username, SetUserName] = useState("");
   const [Password, SetPassword] = useState("");
@@ -10,6 +12,25 @@ export function LoginForm({ setUserId }) {
       id="login-form"
       action={console.log()}
       method="post"
+      onSubmit={async (event) => {
+        event.preventDefault();
+
+        // Post form data to the server
+        const formData = {
+          email: Username,
+          password: Password,
+        };
+        const response = fetch("http://localhost:3001/user/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Add any additional headers if required
+          },
+          body: JSON.stringify(formData),
+        });
+
+        console.log(response.data); // Handle response from the server
+      }}
       style={{ display: "block" }}
     >
       <div className="form-group">
@@ -19,7 +40,7 @@ export function LoginForm({ setUserId }) {
           id="username"
           tabIndex="1"
           className="form-control"
-          placeholder="Username"
+          placeholder="email"
           value={Username}
           onChange={(e) => {
             SetUserName(e.target.value);
@@ -65,7 +86,7 @@ export function LoginForm({ setUserId }) {
           <div className="col-lg-12">
             <div className="text-center">
               <a
-                href=""
+                href="#"
                 tabIndex="5"
                 className={`${styles["forgot-password"]}`}
               >
@@ -89,14 +110,39 @@ export function RegForm({ setUserId }) {
   const [Password, SetPassword] = useState("");
   const [Password2, SetPassword2] = useState("");
   const [Email, setEmail] = useState("");
-  const [Mobile, setMobile] = useState();
+  const [Mobile, setMobile] = useState("");
+  const [msg, setMsg] = useState("");
 
   return (
     // <h1>hi</h1>
     <form
       id="register-form"
-      action={console.log()}
-      method="post"
+      onSubmit={async (event) => {
+        event.preventDefault();
+        if (Password !== Password2) {
+          setMsg("password missmatch");
+          console.log(msg);
+        } else {
+          // Post form data to the server
+          const formData = {
+            name: Username,
+            password: Password,
+            email: Email,
+            mobileno: Mobile,
+            Username: Username,
+          };
+          const response = fetch("http://localhost:3001/user/signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              // Add any additional headers if required
+            },
+            body: JSON.stringify(formData),
+          });
+
+          console.log(response.data); // Handle response from the server
+        }
+      }}
       style={{ display: "block" }}
     >
       <div className="form-group">
@@ -156,8 +202,6 @@ export function RegForm({ setUserId }) {
           required
           onChange={(e) => {
             SetPassword(e.target.value);
-
-            e.target.setCustomValidity("Format:XXX-XXX-XXXX");
           }}
         />
       </div>
@@ -172,11 +216,6 @@ export function RegForm({ setUserId }) {
           placeholder="Confirm Password"
           onChange={(e) => {
             SetPassword2(e.target.value);
-            if (Password !== Password2) {
-              e.target.setCustomValidity("password mismatch");
-            } else {
-              e.target.setCustomValidity("");
-            }
           }}
         />
       </div>
@@ -213,7 +252,7 @@ export function FullComp({ setUserId }) {
                   <div className="col-sm-6">
                     <a
                       onClick={() => setLoginp(1)}
-                      href="#"
+                      href=""
                       className={loginp === 1 ? styles["active"] : ""}
                       id="login-form-link"
                     >
