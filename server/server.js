@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-// const dotenv = require("dotenv");
-// dotenv.config({ path: './config.env' });
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 const app = require("./app");
-
+// require("dotenv").config();
 const port = 3001; // or any other port you prefer
 const DB =
   "mongodb+srv://sivamavi212:12siva@cluster0.cx4yrim.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
