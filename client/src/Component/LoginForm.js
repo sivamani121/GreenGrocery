@@ -140,7 +140,7 @@ export function RegForm({ setUserId }) {
             body: JSON.stringify(formData),
           });
 
-          console.log(response.data); // Handle response from the server
+          console.log(response); // Handle response from the server
         }
       }}
       style={{ display: "block" }}
@@ -252,16 +252,16 @@ export function FullComp({ setUserId }) {
                   <div className="col-sm-6">
                     <a
                       onClick={() => setLoginp(1)}
-                      href=""
                       className={loginp === 1 ? styles["active"] : ""}
                       id="login-form-link"
+                      style={{ cursor: "pointer" }}
                     >
                       Login
                     </a>
                   </div>
                   <div className="col-sm-6">
                     <a
-                      href="#"
+                      style={{ cursor: "pointer" }}
                       onClick={() => setLoginp(0)}
                       id="register-form-link"
                       className={loginp === 0 ? styles["active"] : ""}
