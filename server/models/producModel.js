@@ -21,9 +21,9 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  numberOfRatings:{
-    type:Number,
-    default:0
+  numberOfRatings: {
+    type: Number,
+    default: 0,
   },
   quantity: {
     type: Number,
@@ -33,7 +33,7 @@ const productSchema = new mongoose.Schema({
     {
       url: {
         type: String, // Assuming the URL is stored as a string
-        required: true // If the URL is mandatory
+        required: true, // If the URL is mandatory
       },
     },
   ],

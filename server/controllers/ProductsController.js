@@ -10,6 +10,7 @@ const signToken = (id) => {
 };
 
 exports.addItem = catchAsync(async (req, res) => {
+  console.log(req);
   let images = [];
   for (i = 0; i < req.body.images.length; i++) {
     images.push({ url: req.body.images[i] });
@@ -19,7 +20,7 @@ exports.addItem = catchAsync(async (req, res) => {
       name: req.body.name,
       price: req.body.price,
       Description: req.body.Description,
-      ratings: req.body.ratings,
+      ratings: 0,
       quantity: req.body.quantity,
       images: images,
       category: req.body.category,
@@ -73,7 +74,7 @@ exports.getItems = async function (req, res) {
           json({ msg: "No products available with these specifications." })
         );
     }
-    res.status(200).send(json({ products: products }));
+    res.status(200).json({ products: products });
   } catch (error) {
     console.error("Error filtering products:", error);
     throw error; // Rethrow the error to be handled by the caller
@@ -91,6 +92,47 @@ exports.getItem = async function (req, res) {
       return res.status(404).json({ error: "Item not found" });
     }
     res.status(200).json({ item });
+  } catch (error) {
+    console.error("Error retrieving item:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.rate = async function (req, res) {
+  try {
+    const Id = req.params.id;
+    const item = await Product.findById(Id);
+    if (item) {
+      item.ratings =
+        (Product.ratings * Product.numberofRatings + req.body.rating) /
+        (Product.numberofRatings + 1);
+      item.numberOfRatings = item.numberOfRatings + 1;
+      itrem.save();
+      res.status(200).json({ body: "thanks for rating" });
+    } else {
+      res.status(400).json({ body: "Item not found " });
+    }
+  } catch (error) {
+    console.error("Error retrieving item:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.order = async function (req, res) {
+  try {
+    const Id = req.params.id;
+    const item = await Product.findById(Id);
+    if (item) {
+      if (item.quantity < req.body.quantity) {
+        res.status(400).json({ body: "not enough quantity avilabel" });
+      } else {
+        item.quantity = item.quantity - req.body.quantity;
+        itrem.save();
+        res.status(200).json({ body: "thanks for ordering" });
+      }
+    } else {
+      res.status(400).json({ body: "Item not found " });
+    }
   } catch (error) {
     console.error("Error retrieving item:", error);
     res.status(500).json({ error: "Server error" });

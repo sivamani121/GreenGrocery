@@ -7,6 +7,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
 const userRouter = require("./Routes/userRoutes");
+const ProductRouter = require("./Routes/ProductsRoutes");
 const AppError = require("./utils/appError");
 const bodyParser = require("body-parser");
 const app = express();
@@ -26,6 +27,7 @@ const limiter = rateLimit({
 app.use(express.json({ limit: "10kb" }));
 app.use("/api", limiter);
 app.use("/user", userRouter);
+app.use("/product", ProductRouter);
 app.use(bodyParser.json());
 
 // Data sanitization against NoSQL query injection
